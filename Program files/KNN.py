@@ -5,24 +5,29 @@ import random
 import heapq
 import numpy as np
 from Kdtree import *
-from Node import Node
 
 
 class KNN:
-    def __init__(self, patients, num_neighbors):
+    def __init__(self, patients, num_neighbors, training_instances):
         self.num_neighbors = num_neighbors
         self.neighbors = []
         self.right = 0
         self.wrong = 0
         self.accuracy = 0
 
-        # Shuffle the patients
-        shuffled_patients = self.shuffle_array(patients)
+        # Calculate the number of testing instances (T = N / 4)
+        testing_instances = training_instances // 4
 
-        # Split into training (75%) and testing (25%) sets
-        split_index = len(shuffled_patients) - len(shuffled_patients) // 4
-        train = shuffled_patients[:split_index]
-        self.test = shuffled_patients[split_index:]
+        # Ensure there are enough patients for the requested split
+        if training_instances + testing_instances > len(patients):
+            raise ValueError("Not enough patients for the specified training and testing split.")
+
+        # Randomly select N + T patients
+        selected_patients = self.shuffle_array(patients)[:training_instances + testing_instances]
+
+        # Split into training and testing sets ensuring test and training data are separated
+        train = selected_patients[:training_instances]
+        self.test = selected_patients[training_instances:]
 
         # Build the K-d tree with the training data
         self.tree = KdTree(train)
@@ -34,10 +39,13 @@ class KNN:
             self.vote(self.neighbors)
 
         # Calculate accuracy
-        print(f"wrong: {self.wrong} right: {self.right} length of test: {len(self.test)}")
+        print(f"wrong: {self.wrong} right: {self.right} lenght of train: {len(train)} length of test: {len(self.test)}")
         self.accuracy = (self.right / len(self.test)) * 100
         rounded_accuracy = round(self.accuracy, 2)
         print(f"Test accuracy: {rounded_accuracy}%")
+
+    def get_accuracy(self):
+        return self.accuracy
 
     def shuffle_array(self, patients):
         """Shuffles the list of patients in place and returns it."""
@@ -112,7 +120,7 @@ class KNN:
             self.search(other_node, test_patient, level + 1)
 
     def vote(self, neighbors):
-        """Vote based on the k-nearest neighbors to classify the test patient."""
+        # Vote based on the k-nearest neighbors to classify the test patient.
         m_count = 0
         b_count = 0
 
@@ -125,7 +133,7 @@ class KNN:
 
         while neighbors:
             _, node = heapq.heappop(neighbors)
-            print(f"Neighbor diagnosis: {node.patient.diagnosis}")
+            # print(f"Neighbor diagnosis: {node.patient.diagnosis}")
             if node.patient.diagnosis == 'M':
                 m_count += 1
             else:
@@ -135,7 +143,7 @@ class KNN:
             prediction = "M"
         else:
             prediction = "B"
-        print(f"Predicted: {prediction}, Actual: {real_diagnosis}")
+        # print(f"Predicted: {prediction}, Actual: {real_diagnosis}")
 
         if prediction == real_diagnosis:
             self.right += 1

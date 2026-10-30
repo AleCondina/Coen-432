@@ -1,7 +1,6 @@
-#Alessandro Condina
+# Alessandro Condina
 # This is a patient class that creates patient objects
 # and initializes the 30 attributes
-import pandas
 
 
 class Patient:
@@ -53,9 +52,9 @@ class Patient:
             float(radius_worst), float(texture_worst), float(perimeter_worst), float(area_worst),
             float(smoothness_worst), float(compactness_worst), float(concavity_worst),
             float(concave_points_worst), float(symmetry_worst), float(fractal_dimension_worst)
-            ]
+        ]
 
-    # This function prints all the patient attributes
+    # This is used for troubleshooting purposes
     def print_patient(self):
         print(f"{self.patient_id}, {self.diagnosis}, {self.radius_mean}, {self.texture_mean}, "
               f"{self.perimeter_mean}, {self.area_mean}, {self.smoothness_mean}, {self.compactness_mean}, "
@@ -66,24 +65,3 @@ class Patient:
               f"{self.radius_worst}, {self.texture_worst}, {self.perimeter_worst}, {self.area_worst}, "
               f"{self.smoothness_worst}, {self.compactness_worst}, {self.concavity_worst}, "
               f"{self.concave_points_worst}, {self.symmetry_worst}, {self.fractal_dimension_worst}")
-
-
-# This function creates patient object and initializes their attributes from a CSV file
-def create_patient_from_csv(file_path):
-    data = pandas.read_csv(file_path)
-    patients = []
-
-    for _, row in data.iterrows():
-        patient = Patient(
-            row['id'], row['diagnosis'], row['radius_mean'], row['texture_mean'],
-            row['perimeter_mean'], row['area_mean'], row['smoothness_mean'], row['compactness_mean'],
-            row['concavity_mean'], row['concave points_mean'], row['symmetry_mean'], row['fractal_dimension_mean'],
-            row['radius_se'], row['texture_se'], row['perimeter_se'], row['area_se'],
-            row['smoothness_se'], row['compactness_se'], row['concavity_se'], row['concave points_se'],
-            row['symmetry_se'], row['fractal_dimension_se'], row['radius_worst'], row['texture_worst'],
-            row['perimeter_worst'], row['area_worst'], row['smoothness_worst'], row['compactness_worst'],
-            row['concavity_worst'], row['concave points_worst'], row['symmetry_worst'], row['fractal_dimension_worst']
-        )
-        patients.append(patient)
-
-    return patients
