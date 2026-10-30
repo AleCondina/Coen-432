@@ -45,6 +45,7 @@ class Patient:
         self.symmetry_worst = symmetry_worst
         self.fractal_dimension_worst = fractal_dimension_worst
 
+
     # This function prints all the patient attributes
     def print_patient(self):
         print(f"{self.patient_id}, {self.diagnosis}, {self.radius_mean}, {self.texture_mean}, "
