@@ -5,6 +5,7 @@ import random
 import heapq
 import numpy as np
 from Kdtree import *
+from sklearn.metrics import precision_score, recall_score, f1_score, roc_auc_score
 
 
 class KNN:
@@ -14,6 +15,8 @@ class KNN:
         self.right = 0
         self.wrong = 0
         self.accuracy = 0
+        self.predictions = []  # To store predictions
+        self.true_labels = []  # To store true labels
 
         # Calculate the number of testing instances (T = N / 4)
         testing_instances = training_instances // 4
@@ -43,6 +46,8 @@ class KNN:
         self.accuracy = (self.right / len(self.test)) * 100
         rounded_accuracy = round(self.accuracy, 2)
         print(f"Test accuracy: {rounded_accuracy}%")
+        self.evaluate_metrics()
+
 
     def get_accuracy(self):
         return self.accuracy
@@ -145,8 +150,43 @@ class KNN:
             prediction = "B"
         # print(f"Predicted: {prediction}, Actual: {real_diagnosis}")
 
+        # Store prediction and true label
+        self.predictions.append(prediction)
+        self.true_labels.append(real_diagnosis)
+
         if prediction == real_diagnosis:
             self.right += 1
         else:
             self.wrong += 1
 
+    def evaluate_metrics(self):
+        # Convert predictions and true labels to binary format for sklearn
+        y_true = [1 if label == 'M' else 0 for label in self.true_labels]
+        y_pred = [1 if label == 'M' else 0 for label in self.predictions]
+
+        # Precision, Recall, F1 Score
+        precision = precision_score(y_true, y_pred, zero_division=1)
+        recall = recall_score(y_true, y_pred, zero_division=1)
+        f1 = f1_score(y_true, y_pred, zero_division=1)
+
+        # ROC-AUC Score
+        if len(set(y_true)) > 1:  # Check if more than one class exists in y_true
+            roc_auc = roc_auc_score(y_true, y_pred)
+        else:
+            roc_auc = None  # Handle single-class case
+
+        # Print metrics
+        print(f"Precision: {precision:.2f}")
+        print(f"Recall: {recall:.2f}")
+        print(f"F1 Score: {f1:.2f}")
+        if roc_auc is not None:
+            print(f"ROC-AUC: {roc_auc:.2f}")
+        else:
+            print("ROC-AUC: Undefined (only one class in y_true)")
+
+        return {
+            "precision": precision,
+            "recall": recall,
+            "f1_score": f1,
+            "roc_auc": roc_auc
+        }
