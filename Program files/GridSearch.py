@@ -1,6 +1,7 @@
 # Alessandro Condina
 # Grid search class for KNN and SVM. SVM grid search implemented with scikit API
 
+from pathlib import Path
 from DataLoader import DataLoader
 import time
 from KNN import KNN
@@ -25,7 +26,7 @@ class GridSearch:
             best_hyperparameters = None
             results = []
 
-            data = DataLoader("../training data/cleaned_breast_cancer_data.csv")
+            data = DataLoader(Path(__file__).resolve().parent.parent / "training data" / "cleaned_breast_cancer_data.csv")
 
             N = 40
             patient = data.create_patient_from_csv()
@@ -67,7 +68,7 @@ class GridSearch:
 
         elif self.model == 'SVM':
 
-            data = DataLoader("../training data/cleaned_breast_cancer_data.csv")
+            data = DataLoader(Path(__file__).resolve().parent.parent / "training data" / "cleaned_breast_cancer_data.csv")
 
             N = 40
 

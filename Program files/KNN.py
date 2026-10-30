@@ -39,7 +39,7 @@ class KNN:
         for test_patient in self.test:
             self.neighbors = []  # Reset neighbors for each test patient
             self.search(self.tree.root, test_patient, 0)
-            self.vote(self.neighbors)
+            self.vote(self.neighbors, test_patient.diagnosis)
 
         # Calculate accuracy
         print(f"wrong: {self.wrong} right: {self.right} lenght of train: {len(train)} length of test: {len(self.test)}")
@@ -124,7 +124,7 @@ class KNN:
                 test_patient.attributes[attribute] - node.patient.attributes[attribute]) < -self.neighbors[0][0]:
             self.search(other_node, test_patient, level + 1)
 
-    def vote(self, neighbors):
+    def vote(self, neighbors, real_diagnosis):
         # Vote based on the k-nearest neighbors to classify the test patient.
         m_count = 0
         b_count = 0
@@ -134,7 +134,6 @@ class KNN:
             print("No neighbors found!")
             return
 
-        real_diagnosis = neighbors[0][1].patient.diagnosis
 
         while neighbors:
             _, node = heapq.heappop(neighbors)

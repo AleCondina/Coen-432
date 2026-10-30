@@ -1,13 +1,14 @@
 # Alessandro Condina
 # Main entry point for the program to run
 
+from pathlib import Path
 from DataLoader import DataLoader
 from SVM import SVM
 from KNN import KNN
 import time
 from GridSearch import GridSearch
 
-data = DataLoader("../training data/cleaned_breast_cancer_data.csv")
+data = DataLoader(Path(__file__).resolve().parent.parent / "training data" / "cleaned_breast_cancer_data.csv")
 
 print("Assignment 2\nDeveloped by Alessandro Condina")
 
@@ -54,7 +55,7 @@ while selection != "exit":
         while True:
             try:
                 neighbors = int(input("Enter the number of neighbors: "))
-                if 0 <= N-1:
+                if 1 <= neighbors <= N:
                     break
                 else:
                     print("Invalid input.")
@@ -90,7 +91,7 @@ while selection != "exit":
             try:
                 C = float(input("Choose a value for the decision boundary (lower is more generalized, higher is more precise).\n"
                   "Suggested values: 0.1, 1, 10, 100: "))
-                if 0 <= N <= 100000:
+                if C > 0:
                     break
                 else:
                     print("Invalid input. Suggested values: 0.1, 1, 10, 100: ")
