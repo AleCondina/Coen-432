@@ -1,3 +1,4 @@
+#Alessandro Condina
 # This is a patient class that creates patient objects
 # and initializes the 30 attributes
 import pandas
@@ -11,7 +12,6 @@ class Patient:
                  concave_points_se, symmetry_se, fractal_dimension_se, radius_worst, texture_worst,
                  perimeter_worst, area_worst, smoothness_worst, compactness_worst, concavity_worst,
                  concave_points_worst, symmetry_worst, fractal_dimension_worst):
-
         self.patient_id = patient_id
         self.diagnosis = diagnosis
         self.radius_mean = radius_mean
@@ -44,7 +44,16 @@ class Patient:
         self.concave_points_worst = concave_points_worst
         self.symmetry_worst = symmetry_worst
         self.fractal_dimension_worst = fractal_dimension_worst
-
+        self.attributes = [
+            float(radius_mean), float(texture_mean), float(perimeter_mean), float(area_mean),
+            float(smoothness_mean), float(compactness_mean), float(concavity_mean), float(concave_points_mean),
+            float(symmetry_mean), float(fractal_dimension_mean), float(radius_se), float(texture_se),
+            float(perimeter_se), float(area_se), float(smoothness_se), float(compactness_se),
+            float(concavity_se), float(concave_points_se), float(symmetry_se), float(fractal_dimension_se),
+            float(radius_worst), float(texture_worst), float(perimeter_worst), float(area_worst),
+            float(smoothness_worst), float(compactness_worst), float(concavity_worst),
+            float(concave_points_worst), float(symmetry_worst), float(fractal_dimension_worst)
+            ]
 
     # This function prints all the patient attributes
     def print_patient(self):
