@@ -1,4 +1,5 @@
 # Alessandro Condina
+# K nearest neighbour class
 
 import random
 import heapq

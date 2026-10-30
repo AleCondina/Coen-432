@@ -1,4 +1,5 @@
 # Alessandro Condina
+# K Dimensional tree class
 
 from Node import Node
 

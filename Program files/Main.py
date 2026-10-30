@@ -25,8 +25,10 @@ from KNN import KNN
 # # Optional: Save the cleaned dataset to a new CSV file
 # data.to_csv('cleaned_breast_cancer_data.csv', index=False)
 
-patient = create_patient_from_csv("training data/cleaned_breast_cancer_data.csv")
+# creates a patient list from the CSV file
+patient = create_patient_from_csv("../training data/cleaned_breast_cancer_data.csv")
 
+# runs the KNN algorithm
 knn = KNN(patient, 4)
 
 # for p in patient:
